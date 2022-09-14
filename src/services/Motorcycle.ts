@@ -34,7 +34,7 @@ class MotorcycleService implements IService<IMotorcycle> {
   }
 
   public async update(_id: string, obj: unknown): Promise<IMotorcycle | null> {
-    if (!isValidObjectId) throw new Error(Errors.InvalidId);
+    if (!isValidObjectId(_id)) throw new Error(Errors.InvalidId);
 
     const parsed = motorcycleZodSchema.safeParse(obj);
 
@@ -48,7 +48,7 @@ class MotorcycleService implements IService<IMotorcycle> {
   }
 
   public async delete(_id: string): Promise<IMotorcycle | null> {
-    if (!isValidObjectId) throw new Error(Errors.InvalidId);
+    if (!isValidObjectId(_id)) throw new Error(Errors.InvalidId);
 
     const motorcycle = await this._motorcycle.delete(_id);
 
