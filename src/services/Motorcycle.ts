@@ -24,7 +24,7 @@ class MotorcycleService implements IService<IMotorcycle> {
   }
 
   public async readOne(_id: string): Promise<IMotorcycle | null> {
-    if (!isValidObjectId) throw new Error(Errors.InvalidId);
+    if (!isValidObjectId(_id)) throw new Error(Errors.InvalidId);
     
     const motorcycle = await this._motorcycle.readOne(_id);
 

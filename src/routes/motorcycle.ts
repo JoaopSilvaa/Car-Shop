@@ -6,9 +6,10 @@ import Motorcycle from '../models/Motorcycle';
 const route = Router();
 const motorcycleModel = new Motorcycle();
 const motorcycleService = new MotorcycleService(motorcycleModel);
-const motorCycleController = new MotorCycleController(motorcycleService);
+const motorcycleController = new MotorCycleController(motorcycleService);
 
-route.post('/motorcycles', (req, res) => motorCycleController.create(req, res));
-route.get('/motorCycles', (req, res) => motorCycleController.read(req, res));
+route.post('/motorcycles', (req, res) => motorcycleController.create(req, res));
+route.get('/motorcycles', (req, res) => motorcycleController.read(req, res));
+route.get('/motorcycles/:id', (req, res) => motorcycleController.readOne(req, res));
 
 export default route;
