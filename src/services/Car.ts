@@ -1,6 +1,8 @@
+import { isValidObjectId } from 'mongoose';
 import { IService } from '../interfaces/IService';
 import { ICar, carZodSchema } from '../interfaces/ICar';
 import { IModel } from '../interfaces/IModel';
+import { Errors } from '../errors/errors';
 
 class CarService implements IService<ICar> {
   private _frame: IModel<ICar>;
@@ -22,9 +24,11 @@ class CarService implements IService<ICar> {
   }
 
   public async readOne(_id: string): Promise<ICar | null> {
+    if (!isValidObjectId(_id)) throw new Error(Errors.InvalidId);  
+    
     const car = await this._frame.readOne(_id);
 
-    if (!car) throw new Error('NotFound');
+    if (!car) throw new Error(Errors.ObjectNotFound);
 
     return car;
   }
