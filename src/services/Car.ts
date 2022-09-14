@@ -5,10 +5,10 @@ import { IModel } from '../interfaces/IModel';
 import { Errors } from '../errors/errors';
 
 class CarService implements IService<ICar> {
-  private _frame: IModel<ICar>;
+  private _car: IModel<ICar>;
   
   constructor(model: IModel<ICar>) {
-    this._frame = model;
+    this._car = model;
   }
 
   public async create(obj: unknown): Promise<ICar> {
@@ -16,17 +16,17 @@ class CarService implements IService<ICar> {
 
     if (!parsed.success) throw parsed.error;
 
-    return this._frame.create(parsed.data);
+    return this._car.create(parsed.data);
   }
 
   public async read(): Promise<ICar[]> {
-    return this._frame.read();
+    return this._car.read();
   }
 
   public async readOne(_id: string): Promise<ICar | null> {
     if (!isValidObjectId(_id)) throw new Error(Errors.InvalidId);  
     
-    const car = await this._frame.readOne(_id);
+    const car = await this._car.readOne(_id);
 
     if (!car) throw new Error(Errors.ObjectNotFound);
 
@@ -34,15 +34,21 @@ class CarService implements IService<ICar> {
   }
 
   public async update(_id: string, obj: unknown): Promise<ICar | null> {
+    if (!isValidObjectId(_id)) throw new Error(Errors.InvalidId);  
+
     const parsed = carZodSchema.safeParse(obj);
 
     if (!parsed.success) throw parsed.error;
     
-    return this._frame.update(_id, parsed.data);
+    const car = await this._car.update(_id, parsed.data);
+    
+    if (!car) throw new Error(Errors.ObjectNotFound);
+
+    return car;
   }
 
   public async delete(_id: string): Promise<ICar | null> {
-    const car = await this._frame.delete(_id);
+    const car = await this._car.delete(_id);
 
     if (!car) throw new Error('Not Found');
 

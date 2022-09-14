@@ -9,7 +9,7 @@ const carSchema = new Schema<ICar>({
   buyValue: Number,
   doorsQty: Number,
   seatsQty: Number,
-});
+}, { versionKey: false });
 
 class Car extends MyModel<ICar> {
   constructor(model = mongooseCreateModel('Car', carSchema)) {
