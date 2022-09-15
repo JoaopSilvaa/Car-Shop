@@ -31,7 +31,7 @@ class MotorCycleController {
 
   public async delete(req: Request, res: Response<IMotorcycle | null>) {
     await this._service.delete(req.params.id);
-    return res.status(204).send();
+    return res.status(204).json();
   }
 }
 
